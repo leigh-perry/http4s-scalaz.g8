@@ -1,4 +1,4 @@
-package $package$.shared
+package $package$.service
 
 import org.specs2.Specification
 import org.specs2.matcher.ShouldThrownExpectations
