@@ -1,4 +1,4 @@
-package $package$
+package $package$.shared
 
 import org.specs2.Specification
 import org.specs2.matcher.ShouldThrownExpectations
