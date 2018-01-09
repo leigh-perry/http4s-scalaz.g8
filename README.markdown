@@ -1,5 +1,21 @@
 A [Giter8][g8] template for a skeleton multi-SBT-project. The hint is in the name.
 
+Manual
+```bash
+cd ~/temp
+rm -rf SomeProjectName
+sbt new file:///Users/lperry/dev/lp/sbt-multi-project.g8/
+cd someprojectname/
+export JAVA_HOME=(/usr/libexec/java_home -v 1.8.0_144)
+sbt test
+```
+
+NFG
+```bash
+export JAVA_HOME=(/usr/libexec/java_home -v 1.8.0_144)
+sbt g8Test
+```
+
 Template license
 ----------------
 

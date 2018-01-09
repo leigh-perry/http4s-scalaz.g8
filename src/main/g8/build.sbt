@@ -1,7 +1,7 @@
 import sbt.Project
 import Dependencies._
 
-val projectName = "telstra-data-exchange"
+val projectName = "\$projectName-\$id"
 
 lazy val commonSettings =
   ProjectDefaults.settings ++ Seq(
