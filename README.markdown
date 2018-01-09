@@ -5,6 +5,7 @@ Manual
 cd ~/temp
 rm -rf SomeProjectName
 sbt new file:///Users/lperry/dev/lp/sbt-multi-project.g8/
+rm -rf target
 cd someprojectname/
 export JAVA_HOME=(/usr/libexec/java_home -v 1.8.0_144)
 sbt test
