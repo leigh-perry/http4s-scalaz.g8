@@ -40,7 +40,9 @@ object ProjectDefaults {
       fork in Test := true,
       fork in run := true,
 
-      javaOptions ++=
+      testFrameworks += new TestFramework("utest.runner.Framework"),
+
+        javaOptions ++=
         Seq(
           "-Xms1G",
           "-Xmx1G",

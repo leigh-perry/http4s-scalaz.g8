@@ -1,20 +1,23 @@
-package $package$.shared
+package com.organisation.$package$.shared
 
-import org.specs2.Specification
-import org.specs2.matcher.ShouldThrownExpectations
-import org.specs2.specification.core.SpecStructure
+import com.organisation.$package$.testsupport.UtestScalaCheck
+import org.scalacheck.Prop.forAll
+import utest._
 
-class StuffTest extends Specification with ShouldThrownExpectations {
+@SuppressWarnings(Array("org.wartremover.warts.Nothing"))
+object StuffTest extends TestSuite with UtestScalaCheck {
+  val tests =
+    Tests {
+      "Shared tests" - {
+        "startsWith" -
+          forAll {
+            (a: String, b: String) => (a + b).startsWith(a)
+          }.check()
 
-  override def is: SpecStructure = {
-    s2"""
-      Stuff
-        should work \$dummy
-    """
-  }
-
-  private def dummy = {
-    123 must be_===(123)
-  }
-
+        "concatenate" -
+          forAll {
+            (a: String, b: String) => (a + b).length >= a.length && (a + b).length >= b.length
+          }.check()
+      }
+    }
 }

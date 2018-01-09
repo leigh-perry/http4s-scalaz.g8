@@ -1,20 +1,18 @@
-package $package$.service
+package com.organisation.$package$.service
 
-import org.specs2.Specification
-import org.specs2.matcher.ShouldThrownExpectations
-import org.specs2.specification.core.SpecStructure
+import com.organisation.$package$.testsupport.UtestScalaCheck
+import org.scalacheck.Prop.forAll
+import utest._
 
-class MoreStuffTest extends Specification with ShouldThrownExpectations {
-
-  override def is: SpecStructure = {
-    s2"""
-      More stuff
-        should work \$dummy
-    """
-  }
-
-  private def dummy = {
-    123 must be_===(123)
-  }
-
+@SuppressWarnings(Array("org.wartremover.warts.Nothing"))
+object MoreStuffTest extends TestSuite with UtestScalaCheck {
+  val tests =
+    Tests {
+      "Service tests" - {
+        "substring" -
+          forAll {
+            (a: String, b: String, c: String) => (a + b + c).substring(a.length, a.length + b.length) == b
+          }.check()
+      }
+    }
 }
