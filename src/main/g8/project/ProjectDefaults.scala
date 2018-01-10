@@ -65,6 +65,8 @@ object ProjectDefaults {
       // All subprojects to use
       libraryDependencies ++=
         Seq(
+          slf4j,
+          logback,
           scalazCore,
           scalazConcurrent
         ),

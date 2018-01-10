@@ -1,14 +1,18 @@
 package $package$.service
 
-import $package$.shared.Apps
-import $package$.shared.Config.{Endpoint, HostName, PortNumber}
-import $package$.shared.{AppFailure, Config}
 import $package$.BuildInfo
+import $package$.shared.Config.{Endpoint, HostName, PortNumber}
+import $package$.shared.{AppFailure, Apps, Config}
 
 import scalaz.\/
 import scalaz.syntax.either._
 
 object AppMain {
+
+  import org.slf4j.{Logger, LoggerFactory}
+
+  private val log: Logger = LoggerFactory.getLogger(getClass)
+
   def main(args: Array[String]): Unit = {
     val banner =
       Apps.className(this) + " process version: " + BuildInfo.version +
@@ -17,7 +21,7 @@ object AppMain {
         "\n  library-dependencies: " + BuildInfo.libraryDependencies +
         "\n  build-time: " + BuildInfo.buildTime +
         "\n  git-commit-identifier: " + BuildInfo.gitCommitIdentifier
-    println(banner)
+    log.info(banner)
     Apps.logEnvironment()
 
     val envName = if (args.length == 0) "dev" else args(0)
@@ -27,15 +31,14 @@ object AppMain {
         r <- runApp(c)
       } yield r
 
-    // TODO logging
     outcome.fold(
-      appFailure => println("Failed: " + appFailure),
-      _ => println("Completed successfully")
+      appFailure => log.error("Failed: " + appFailure),
+      _ => log.info("Completed successfully")
     )
   }
 
   private def runApp(c: Config): AppFailure \/ Unit = {
-    println(c) // TODO log config etc
+    log.info(c.toString)
     ().right
   }
 

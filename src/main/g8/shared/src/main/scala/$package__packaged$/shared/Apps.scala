@@ -2,28 +2,31 @@ package $package$.shared
 
 import java.io.{PrintWriter, StringWriter, Writer}
 
+import org.slf4j.{Logger, LoggerFactory}
+
 object Apps {
+  private val log: Logger = LoggerFactory.getLogger(getClass)
+
   def logEnvironment(): Unit = {
     import scala.collection.JavaConverters._
 
     val separator = "================================================================================"
 
-    // TODO logging
-    println(separator)
-    println("System properties")
-    println(separator)
+    log.info(separator)
+    log.info("System properties")
+    log.info(separator)
     for ((k, v) <- System.getProperties.asScala) {
-      println(k + "=" + v)
+      log.info(k + "=" + v)
     }
 
-    println(separator)
-    println("Environment variables")
-    println(separator)
+    log.info(separator)
+    log.info("Environment variables")
+    log.info(separator)
     for ((k, v) <- System.getenv.asScala) {
-      println(k + "=" + v)
+      log.info(k + "=" + v)
     }
 
-    println(separator)
+    log.info(separator)
   }
 
   def className(o: AnyRef): String = {
@@ -38,5 +41,13 @@ object Apps {
     val sw: Writer = new StringWriter
     e.printStackTrace(new PrintWriter(sw))
     sw.toString
+  }
+
+  object extensions {
+
+    implicit class RichLogger(val log: Logger) extends AnyVal {
+      def exception(e: Throwable): Unit = log.error(exceptionDetails(e))
+    }
+
   }
 }
