@@ -4,7 +4,7 @@ import $package$.testsupport.UtestScalaCheck
 import org.scalacheck.Prop.forAll
 import utest._
 
-object MoreStuffTest extends TestSuite with UtestScalaCheck {
+object DummyTest extends TestSuite with UtestScalaCheck {
   val tests =
     Tests {
       "Service tests" - {

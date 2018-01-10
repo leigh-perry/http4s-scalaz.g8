@@ -1,13 +1,25 @@
 package $package$.service
 
+import $package$.shared.Apps
 import $package$.shared.Config.{Endpoint, HostName, PortNumber}
 import $package$.shared.{AppFailure, Config}
+import $package$.BuildInfo
 
 import scalaz.\/
 import scalaz.syntax.either._
 
 object AppMain {
   def main(args: Array[String]): Unit = {
+    val banner =
+      Apps.className(this) + " process version: " + BuildInfo.version +
+        "\n  scala-version: " + BuildInfo.scalaVersion +
+        "\n  sbt-version: " + BuildInfo.sbtVersion +
+        "\n  library-dependencies: " + BuildInfo.libraryDependencies +
+        "\n  build-time: " + BuildInfo.buildTime +
+        "\n  git-commit-identifier: " + BuildInfo.gitCommitIdentifier
+    println(banner)
+    Apps.logEnvironment()
+
     val envName = if (args.length == 0) "dev" else args(0)
     val outcome =
       for {
