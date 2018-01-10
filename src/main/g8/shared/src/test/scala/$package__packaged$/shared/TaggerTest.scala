@@ -5,7 +5,6 @@ import $package$.shared.tagger.{Tagger, TaggerOps}
 import org.scalacheck.Prop.forAll
 import utest._
 
-@SuppressWarnings(Array("org.wartremover.warts.Nothing", "org.wartremover.warts.Any"))
 object TaggerTest extends TestSuite with UtestScalaCheck {
   object NewTypes {
     type TaggedString = TaggedString.Type

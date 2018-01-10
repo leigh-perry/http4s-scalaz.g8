@@ -4,9 +4,6 @@ import sbt.Resolver
 
 import Dependencies._
 
-import wartremover._
-
-
 object ProjectDefaults {
   private val scalacOptionsWarnings =
     Set(
@@ -72,10 +69,7 @@ object ProjectDefaults {
           scalazConcurrent
         ),
 
-      addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.5" cross CrossVersion.binary),
-
-      wartremoverErrors in(Compile, compile) := Warts.all,
-      wartremoverErrors in(Test, compile) := Warts.all
+      addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.5" cross CrossVersion.binary)
     )
 
 }
