@@ -1,10 +1,10 @@
-package com.organisation.$package$.service
+package $package$.service
 
-import com.organisation.$package$.testsupport.UtestScalaCheck
+import $package$.testsupport.UtestScalaCheck
 import org.scalacheck.Prop.forAll
 import utest._
 
-@SuppressWarnings(Array("org.wartremover.warts.Nothing"))
+@SuppressWarnings(Array("org.wartremover.warts.Nothing", "org.wartremover.warts.Any"))
 object MoreStuffTest extends TestSuite with UtestScalaCheck {
   val tests =
     Tests {
