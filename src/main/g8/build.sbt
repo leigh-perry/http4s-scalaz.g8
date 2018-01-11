@@ -1,7 +1,7 @@
 import sbt.Project
 import Dependencies._
 
-val projectName = "\$projectName-\$id"
+val projectName = "$name$"
 
 lazy val gitCommitIdentifier: String = {
   import sys.process._

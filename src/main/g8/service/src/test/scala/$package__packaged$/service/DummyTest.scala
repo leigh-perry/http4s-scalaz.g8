@@ -1,6 +1,6 @@
 package $package$.service
 
-import $package$.testsupport.UtestScalaCheck
+import $package$.shared.testsupport.UtestScalaCheck
 import org.scalacheck.Prop.forAll
 import utest._
 

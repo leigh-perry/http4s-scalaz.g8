@@ -1,6 +1,6 @@
 package $package$.shared
 
-import $package$.testsupport.UtestScalaCheck
+import $package$.shared.testsupport.UtestScalaCheck
 import $package$.shared.tagger.{Tagger, TaggerOps}
 import org.scalacheck.Prop.forAll
 import utest._

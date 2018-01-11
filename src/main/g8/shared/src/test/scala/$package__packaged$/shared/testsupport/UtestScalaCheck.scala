@@ -1,4 +1,4 @@
-package $package$.testsupport
+package $package$.shared.testsupport
 
 import org.scalacheck.util.Pretty
 import org.scalacheck.{Prop, Test}

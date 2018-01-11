@@ -17,10 +17,10 @@ object AppMain {
     val banner =
       Apps.className(this) + " process version: " + BuildInfo.version +
         "\n  scala-version: " + BuildInfo.scalaVersion +
-        "\n  sbt-version: " + BuildInfo.sbtVersion +
-        "\n  library-dependencies: " + BuildInfo.libraryDependencies +
-        "\n  build-time: " + BuildInfo.buildTime +
-        "\n  git-commit-identifier: " + BuildInfo.gitCommitIdentifier
+        "\n  sbt-version:   " + BuildInfo.sbtVersion +
+        "\n  build-time:    " + BuildInfo.buildTime +
+        "\n  git-commit:    " + BuildInfo.gitCommitIdentifier +
+        "\n  libraries:     " + BuildInfo.libraryDependencies
     log.info(banner)
     Apps.logEnvironment()
 

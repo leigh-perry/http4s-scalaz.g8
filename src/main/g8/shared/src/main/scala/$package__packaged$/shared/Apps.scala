@@ -4,8 +4,29 @@ import java.io.{PrintWriter, StringWriter, Writer}
 
 import org.slf4j.{Logger, LoggerFactory}
 
+import scalaz.\/
+import scalaz.syntax.either._
+
 object Apps {
   private val log: Logger = LoggerFactory.getLogger(getClass)
+
+  def using[A <: AutoCloseable, B](resource: => A, onFailure: Throwable => AppFailure)(f: A => B): AppFailure \/ B = {
+    try {
+      f(resource).right
+    } catch {
+      case e: Throwable => onFailure(e).left
+    } finally {
+      resource.close()
+    }
+  }
+
+  def supervise[A](resource: => A, onFailure: Throwable => AppFailure): AppFailure \/ A = {
+    try {
+      resource.right
+    } catch {
+      case e: Throwable => onFailure(e).left
+    }
+  }
 
   def logEnvironment(): Unit = {
     import scala.collection.JavaConverters._
