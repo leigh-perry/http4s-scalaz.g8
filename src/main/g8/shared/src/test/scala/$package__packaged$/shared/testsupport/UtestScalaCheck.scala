@@ -6,9 +6,12 @@ import utest.assert
 
 trait UtestScalaCheck {
   protected[this] object UtestReporter extends Test.TestCallback {
-    override def onTestResult(name: String, res: org.scalacheck.Test.Result) = {
-      val scalaCheckResult = if (res.passed) "" else Pretty.pretty(res, Pretty.defaultParams)
-      assert(scalaCheckResult.isEmpty)
+    override def onTestResult(name: String, res: org.scalacheck.Test.Result): Unit = {
+      val passed = res.passed
+      if (!passed) {
+        println(s"UtestScalaCheck check failed: \${Pretty.pretty(res, Pretty.defaultParams)}")
+      }
+      assert(passed)
     }
   }
 

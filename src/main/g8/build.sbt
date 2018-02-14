@@ -43,19 +43,75 @@ lazy val shared =
       buildInfoPackage := "$package$"
     )
 
-lazy val service = module(id = "service", deps = Seq()).dependsOn(shared % tests)
+lazy val extapi =
+  module(
+    id = "extapi",
+    deps =
+      Seq(
+        http4sDsl,
+        http4sBlazeServer,
+        http4sArgonaut,
+        argonaut,
+        argonautScalaz,
+        doobieCore,
+        doobieHikari
+      )
+  ).dependsOn(shared, shared % tests)
 
 lazy val root =
   (project in file("."))
-    .aggregate(shared, service)
-    .dependsOn(service)
+    .aggregate(shared, extapi)
+    .dependsOn(extapi)
     .settings(commonSettings)
     .settings(
       aggregate in update := false,
       updateOptions := updateOptions.value.withCachedResolution(true),
-      mainClass in Compile := (mainClass in `service` in Compile).value,
-      fullClasspath in Runtime ++= (fullClasspath in `service` in Runtime).value
+      mainClass in Compile := (mainClass in `extapi` in Compile).value,
+      fullClasspath in Runtime ++= (fullClasspath in `extapi` in Runtime).value
     )
+
+// Prevent clash in sbt assembly
+assemblyExcludedJars in assembly := {
+  val cp = (fullClasspath in assembly).value
+  cp.filter(_.data.getName.contains("log4j"))
+}
+
+assemblyMergeStrategy in assembly := {
+//  case PathList(ps @ _*) if ps.exists(_.contains("io.netty.versions.properties")) => MergeStrategy.first
+//  case PathList(ps @ _*) if ps.exists(_.contains("publicsuffix")) => MergeStrategy.first
+  case x =>
+    val oldStrategy = (assemblyMergeStrategy in assembly).value
+    oldStrategy(x)
+}
+
+// Create assembly only for top level project
+aggregate in assembly := false
+
+// support docker task ("sbt docker" command)
+enablePlugins(DockerPlugin)
+
+dockerfile in docker := {
+  // The assembly task generates a fat JAR file
+  val artifact: File = assembly.value
+  val artifactTargetPath = s"/app/\${artifact.name}"
+
+  new Dockerfile {
+    from("azul/zulu-openjdk:9ea")
+    add(new File("docker-components/run_app.sh"), "/app/run_app.sh")
+    add(artifact, artifactTargetPath)
+    entryPoint("/app/run_app.sh", artifactTargetPath)
+  }
+}
+
+buildOptions in docker := BuildOptions(cache = false)
+
+imageNames in docker :=
+  Seq(
+    // Sets the latest tag
+    //  ImageName(s"\${organization.value}/\${name.value}:latest")
+    ImageName(s"\${organization.value}/dx-custom-resources:latest")
+  )
+
 
 def module(id: String, settings: Seq[Def.Setting[_]] = commonSettings, deps: Seq[ModuleID] = Vector()): Project = {
   Project(id = id, base = file(id), settings = settings)
