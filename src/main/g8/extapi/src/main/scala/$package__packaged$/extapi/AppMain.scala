@@ -7,6 +7,7 @@ import $package$.extapi.store.SqlStore
 import $package$.shared.Apps.{overridable, overridableInt}
 import $package$.shared.Newtype._
 import $package$.shared.tagger._
+import $package$.extapi.testsupport.StubStore
 import $package$.shared.{AppFailure, Apps}
 import org.http4s.server.blaze.BlazeBuilder
 import org.http4s.util.ProcessApp
@@ -31,7 +32,7 @@ object AppMain extends ProcessApp {
     log.info(banner)
     Apps.logEnvironment()
 
-    val envName = overridable("DXRES_ENV", "dev")
+    val envName = overridable("XAPP_ENV", "dev")
     val outcome =
       for {
         cfg <- configFor(envName)
@@ -50,7 +51,8 @@ object AppMain extends ProcessApp {
   }
 
   private def runApp(cfg: Config): Process[Task, Nothing] = {
-    val store = new SqlStore(cfg)
+    val store = new StubStore(10)
+    // TODO instate this: val store = new SqlStore(cfg)
     val viewService = new ReadService[Long, HourlyAggregatedFullness](cfg, store)
     val controller = new ApiHttpController(cfg, viewService)
 
@@ -75,8 +77,7 @@ object AppMain extends ProcessApp {
             password = DbPassword("PPPassword@123")
           )
 
-        // TODO: why won't read under Azure?   val port = PortNumber(overridableInt("DXRES_HTTPPORT", baseConfig.restHttpPort.unwrap))
-        val port = PortNumber(overridableInt("server.port", baseConfig.restHttpPort.unwrap))
+        val port = PortNumber(overridableInt("XAPP_HTTPPORT", baseConfig.restHttpPort.unwrap))
         baseConfig.copy(db = databaseConfig, restHttpPort = port).right
 
       case "uat" =>

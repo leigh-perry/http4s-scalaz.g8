@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+  extapi:
+    hostname: extapi
+    image: '$organisation$/$name;format="normalize"$'
+    ports:
+      - 6789:6789
+    environment:
+      XAPP_OPERATION: 'extapi'
+      XAPP_ENV: 'dev'

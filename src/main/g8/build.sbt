@@ -108,8 +108,7 @@ buildOptions in docker := BuildOptions(cache = false)
 imageNames in docker :=
   Seq(
     // Sets the latest tag
-    //  ImageName(s"\${organization.value}/\${name.value}:latest")
-    ImageName(s"\${organization.value}/dx-custom-resources:latest")
+    ImageName(s"\${organization.value}/$name;format="normalize"$:latest")
   )
 
 
@@ -117,6 +116,6 @@ def module(id: String, settings: Seq[Def.Setting[_]] = commonSettings, deps: Seq
   Project(id = id, base = file(id), settings = settings)
     .settings(
       name := s"\$projectName-\$id",
-      libraryDependencies ++= deps
+      libraryDependencies ++= deps ++ Seq("org.scala-lang" % "scala-reflect" % "$scala_version$")
     )
 }

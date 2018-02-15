@@ -7,12 +7,12 @@ JAR_FILE=\$1
 GLOBAL_SWITCHES="--add-modules java.xml.bind"
 
 echo JAR_FILE=\${JAR_FILE}
-env | grep DXRES_ | sort
+env | grep XAPP_ | sort
 
-if [[ "\$DXRES_OPERATION" == "extapi" ]]; then
+if [[ "\$XAPP_OPERATION" == "extapi" ]]; then
     java -cp "\${JAR_FILE}" \${GLOBAL_SWITCHES} $package$.extapi.AppMain
 
 else
-  echo "Unknown option '\$DXRES_OPERATION'"
+  echo "Unknown option '\$XAPP_OPERATION'"
 
 fi

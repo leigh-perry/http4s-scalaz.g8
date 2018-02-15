@@ -71,7 +71,7 @@ object ProjectDefaults {
           scalazConcurrent
         ),
 
-      addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.5" cross CrossVersion.binary)
+      addCompilerPlugin("org.spire-math" % "kind-projector" % "0.9.6" cross CrossVersion.binary)
     )
 
 }
