@@ -26,25 +26,21 @@ class ApiHttpController(cfg: Config, viewService: CrudService[Long, HourlyAggreg
 
   // TODO swagger via https://github.com/http4s/rho
 
-  val routes: HttpService =
-    HttpService {
+  val routeHandler: PartialFunction[Request, Task[Response]] = {
 
       case GET -> Root / "test" =>
         log.info("GET test message")
         Ok(Task.now(s"Test string from \${this.getClass.getCanonicalName} at \${LocalDateTime.now}"))
-          .handleWith(errorHandler)
 
       case GET -> Root / "hourly" =>
         log.info("GET all")
         Ok(viewService.readAll())
-          .handleWith(errorHandler)
 
       case GET -> Root / "hourly" / idString => {
         log.info(s"GET \$idString")
         val id = JLong.valueOf(idString)
 
         Ok(viewService.read(id))
-          .handleWith(errorHandler)
       }
 
       case req @ POST -> Root / "hourly" =>
@@ -52,7 +48,6 @@ class ApiHttpController(cfg: Config, viewService: CrudService[Long, HourlyAggreg
           row =>
             viewService.create(row)
               .flatMap(v => Created(row))
-              .handleWith(errorHandler)
         }
 
       case req @ PUT -> Root / "hourly" / name =>
@@ -60,14 +55,19 @@ class ApiHttpController(cfg: Config, viewService: CrudService[Long, HourlyAggreg
           row =>
             viewService.update(row)
               .flatMap(_ => Accepted())
-              .handleWith(errorHandler)
         }
 
       case DELETE -> Root / "hourly" / id =>
         viewService.delete(id)
           .flatMap(_ => Ok())
-          .handleWith(errorHandler)
     }
+
+  val routes: HttpService =
+    HttpService {
+      routeHandler
+        .andThen(_.handleWith(errorHandler))
+    }
+
 
   import org.http4s.server.middleware.CORS
 

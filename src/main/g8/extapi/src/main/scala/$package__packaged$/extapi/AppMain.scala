@@ -3,7 +3,6 @@ package $package$.extapi
 import $package$.BuildInfo
 import $package$.extapi.model.Model.HourlyAggregatedFullness
 import $package$.extapi.service.ReadService
-import $package$.extapi.store.SqlStore
 import $package$.shared.Apps.{overridable, overridableInt}
 import $package$.shared.Newtype._
 import $package$.shared.tagger._
