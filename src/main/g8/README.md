@@ -7,7 +7,7 @@
 # Sample project
 
 ```bash
-sbt new file:///Users/lperry/dev/lp/sbt-multi-project.g8
+sbt new https://github.com/leigh-perry/sbt-multi-project.g8
     name [SomeProjectName]:
     organisation [com.organisation]:
     package [com.organisation.someprojectname]:
