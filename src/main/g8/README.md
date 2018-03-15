@@ -7,16 +7,6 @@
 # Sample project
 
 ```bash
-sbt new https://github.com/leigh-perry/sbt-multi-project.g8
-    name [SomeProjectName]:
-    organisation [com.organisation]:
-    package [com.organisation.someprojectname]:
-    scala_version [2.12.4]:
-    sbt_version [0.13.16]:
-
-    Template applied in ./someprojectname
-
-cd someprojectname
 sbt compile test docker
 
 cd testing
