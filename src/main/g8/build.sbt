@@ -96,7 +96,7 @@ dockerfile in docker := {
   val artifactTargetPath = s"/app/\${artifact.name}"
 
   new Dockerfile {
-    from("azul/zulu-openjdk:9ea")
+    from("azul/zulu-openjdk:9")
     add(new File("docker-components/run_app.sh"), "/app/run_app.sh")
     add(artifact, artifactTargetPath)
     entryPoint("/app/run_app.sh", artifactTargetPath)
