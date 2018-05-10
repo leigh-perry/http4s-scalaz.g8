@@ -18,7 +18,7 @@ sbt new https://github.com/leigh-perry/sbt-multi-project.g8
     name [SomeProjectName]:
     organisation [com.organisation]:
     package [com.organisation.someprojectname]:
-    scala_version [2.12.4]:
+    scala_version [2.12.6]:
     sbt_version [0.13.16]:
 
     Template applied in ./someprojectname
