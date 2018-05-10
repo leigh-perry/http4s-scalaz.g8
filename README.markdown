@@ -14,7 +14,7 @@ Generates a starting point for a `http4s` and `doobie`-based REST app.
 ## Usage
 
 ```bash
-sbt new https://github.com/leigh-perry/sbt-multi-project.g8
+sbt new https://github.com/leigh-perry/http4s-scalaz.g8
     name [SomeProjectName]:
     organisation [com.organisation]:
     package [com.organisation.someprojectname]:
